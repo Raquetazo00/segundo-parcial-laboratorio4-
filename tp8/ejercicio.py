@@ -13,7 +13,7 @@ def mostrar_informacion_alumno():
         st.markdown("### Información del Alumno")
         st.markdown('**Legajo:** 59.099')
         st.markdown('**Nombre:** Moyano Berrondo Tahiel Lisandro')
-        st.markdown('**Comisión:** 5')
+        st.markdown('**Comisión:** C5')
 
 # Mostrar información del alumno en la barra lateral
 st.sidebar.title("Información")
@@ -30,10 +30,7 @@ file_path = os.path.join(folder_path, filename)
 if os.path.exists(file_path):
     # Leer los datos
     data = pd.read_csv(file_path)
-
-    # Verificación: Muestra las primeras filas de los datos para asegurarte de que se leyeron correctamente
-    st.write(data.head())
-
+    
     sucursales = ["Todas"] + data["Sucursal"].unique().tolist()
 
     # Filtro por sucursal
@@ -96,16 +93,12 @@ if os.path.exists(file_path):
                 "Ingreso_total": "sum"
             }).reset_index()
 
-            # Aseguramos que la fecha se formatee correctamente
             producto_data_grouped["Fecha"] = pd.to_datetime(
                 producto_data_grouped["Año"].astype(str) + "-" + producto_data_grouped["Mes"].astype(str) + "-01",
                 errors="coerce"
             )
             producto_data_grouped = producto_data_grouped.dropna(subset=["Fecha"])
             producto_data_grouped = producto_data_grouped.sort_values("Fecha")
-
-            # Verificación: Muestra las primeras filas del dataframe agrupado para asegurar que los datos se agregaron correctamente
-            st.write(producto_data_grouped.head())
 
             # Crear el gráfico
             plt.figure(figsize=(10, 4))
@@ -118,7 +111,7 @@ if os.path.exists(file_path):
                 ))(np.arange(len(producto_data_grouped["Fecha"]))),
                 label="Tendencia", linestyle="--"
             )
-            plt.title(f"Evolución de Ventas Mensual - {producto}")
+            plt.title("Evolución de Ventas Mensual")
             plt.xlabel("Fecha")
             plt.ylabel("Ingreso Total")
             plt.legend()
