@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import os
 
 # Configuración de la página
 st.set_page_config(page_title="Datos de Ventas", layout="wide")
@@ -19,18 +18,12 @@ def mostrar_informacion_alumno():
 st.sidebar.title("Información")
 mostrar_informacion_alumno()
 
-# Especifica la carpeta donde se encuentra el archivo CSV
-folder_path = "ruta/a/tu/carpeta"  # Reemplaza con la ruta correcta
-filename = "datos_ventas.csv"  # Nombre del archivo CSV
-
-# Cargar archivo CSV desde la carpeta especificada
-file_path = os.path.join(folder_path, filename)
-
-# Verificar si el archivo existe
-if os.path.exists(file_path):
-    # Leer los datos
-    data = pd.read_csv(file_path)
-    
+# Cargar archivo CSV
+st.sidebar.header("Cargar archivo de datos")
+uploaded_file = st.sidebar.file_uploader("Subir archivo CSV", type=["csv"])
+if uploaded_file:
+    # Leer datos
+    data = pd.read_csv(uploaded_file)
     sucursales = ["Todas"] + data["Sucursal"].unique().tolist()
 
     # Filtro por sucursal
@@ -118,4 +111,4 @@ if os.path.exists(file_path):
             st.pyplot(plt)
 
 else:
-    st.info(f"No se encontró el archivo en la ruta: {file_path}. Por favor, verifica la ubicación del archivo.")
+    st.info("Por favor, sube un archivo CSV para comenzar.")
